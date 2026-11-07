@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+# Python bytecode and caches
+*.py[cod]
+# Virtual environment
+.venv/
+# Test, type checker, and tool caches
+# Local environment files

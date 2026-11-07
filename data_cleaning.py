@@ -1,3 +1,7 @@
+"""
+Cleaning data of rental price in both Seattle and New York City
+"""
+
 import pandas as pd
 
 SEA_RENTAL_FILE = "Datasets/SEA_rental_price.csv"
@@ -14,7 +18,7 @@ def main():
                     "Tract Median Apartment Contract Rent per Unit"]]
     sea_rental = sea_rental[sea_rental[
         "Tract Median Apartment Contract Rent per Square Foot"] > 0]
-    
+
     sea_rental.columns = ["year", "area_name",
                           "rental_price_sqft", "rental_price_unit"]
     sea_rental = sea_rental.iloc[::-1].reset_index(drop=True)
@@ -25,7 +29,7 @@ def main():
         [["rental_price_sqft", "rental_price_unit"]].mean().reset_index()
 
     sea_yearly_rent.to_csv("SEA_yearly_rent.csv")
-    
+
 
     # Data cleaning for NYC rental price
     nyc_rental = pd.read_csv(NYC_RENTAL_FILE)

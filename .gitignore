@@ -224,3 +224,10 @@ __marimo__/
 .venv/
 # Test, type checker, and tool caches
 # Local environment files
+
+# Local CSV data and generated HTML files
+*.csv
+*.html
+
+# Local VS Code workspace settings
+.vscode/

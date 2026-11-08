@@ -6,6 +6,7 @@ Run data_cleaning.py first to create the team's cleaned rental CSV files.
 
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 
 
 def calculate_affordability(wages: pd.DataFrame,
@@ -58,6 +59,7 @@ def main() -> None:
 
     # Note: Seattle contract rents and NYC asking rents are not identical.
     # Plot the descriptive comparison without treating it as a causal result.
+    """
     fig = px.line(combined, x="year", y="rent_share_pct", color="city",
                   markers=True,
                   title="Reported Rent as a Share of Gross Minimum-Wage Pay",
@@ -65,6 +67,27 @@ def main() -> None:
                           "rent_share_pct": "Rent / gross income (%)",
                           "city": "City"})
     fig.write_html("rent_affordability.html")
+    """
+
+    sea_area = pd.read_csv("SEA_rental_cleaned.csv")
+    sea_area = sea_area[(2017 <= sea_area["year"]) & (sea_area["year"] <= 2025)][["year", "area_name", "rental_price_unit"]]
+    sea_area["year"] = pd.to_numeric(sea_area["year"], errors="coerce")
+    sea_area["rental_price_unit"] = pd.to_numeric(sea_area["rental_price_unit"], errors="coerce")
+    sea_area = sea_area.groupby(["year", "area_name"], as_index=False).mean()
+
+    nyc_area = pd.read_csv("NYC_rental_cleaned.csv")
+    nyc_area = nyc_area[nyc_area["areaType"]=="neighborhood"][(2017 <= nyc_area["Year"]) & (nyc_area["Year"] <= 2025)][["areaName", "Rental_Price", "Year"]]
+    nyc_area["Year"] = pd.to_numeric(nyc_area["Year"], errors="coerce")
+    nyc_area["Rental_Price"] = pd.to_numeric(nyc_area["Rental_Price"], errors="coerce")
+    nyc_area = nyc_area.groupby(["Year", "areaName"], as_index=False).mean()
+
+    fig2 = go.Figure()
+    fig2.add_trace(go.Box(x=nyc_area['Year'], y=nyc_area['Rental_Price'], name='New York City'))
+    fig2.add_trace(go.Box(x=sea_area['year'], y=sea_area['rental_price_unit'], name='Seattle'))
+    fig2.update_layout(boxmode="group", boxgap=0.45, boxgroupgap=0.45,
+                       title="Rental Price Distribution Over Years",
+                       xaxis_title="Year", yaxis_title="Rental Price")
+    fig2.write_html("rent_boxplot.html")
 
 
 if __name__ == "__main__":

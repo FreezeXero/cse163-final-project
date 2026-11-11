@@ -11,6 +11,8 @@ def main():
     # Data cleaning for Seattle rental price
     sea_rental = pd.read_csv(SEA_RENTAL_FILE)
 
+    # print(sea_rental["Tract Median Apartment Contract Rent per Unit"].isnull().sum())
+
     sea_rental =\
         sea_rental[["Year",
                     "Community Reporting Area Name",

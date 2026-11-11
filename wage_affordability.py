@@ -59,7 +59,6 @@ def main() -> None:
 
     # Note: Seattle contract rents and NYC asking rents are not identical.
     # Plot the descriptive comparison without treating it as a causal result.
-    """
     fig = px.line(combined, x="year", y="rent_share_pct", color="city",
                   markers=True,
                   title="Reported Rent as a Share of Gross Minimum-Wage Pay",
@@ -67,8 +66,8 @@ def main() -> None:
                           "rent_share_pct": "Rent / gross income (%)",
                           "city": "City"})
     fig.write_html("rent_affordability.html")
-    """
 
+    # Plot the distribution of yearly rent by area.
     sea_area = pd.read_csv("SEA_rental_cleaned.csv")
     sea_area = sea_area[(2017 <= sea_area["year"]) & (sea_area["year"] <= 2025)][["year", "area_name", "rental_price_unit"]]
     sea_area["year"] = pd.to_numeric(sea_area["year"], errors="coerce")

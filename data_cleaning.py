@@ -67,15 +67,15 @@ def main():
         nyc_long["areaType"] == "borough"
     ]
 
-    nyc_yearly_rent = (
-        borough_data.groupby(
-            ["Year", "Borough"])["Rental_Price"].mean().reset_index()
-    )
+   # nyc_17_25 = nyc_long[
+    #    (nyc_long["Year"] >= 2017) &
+   #     (nyc_long["Year"] <= 2025)
+  #  ]
 
-    missing_percentage = nyc_long.isnull().mean() * 100
+   # missing_percentage = nyc_17_25.isnull().mean() * 100
 
-    print("NYC Long Dataset Missing Data Percentage:")
-    print(missing_percentage)
+  #  print("Missing Data Percentage (2017–2025):")
+  #  print(missing_percentage)
 
     nyc_long.to_csv("NYC_rental_cleaned.csv")
     nyc_yearly_rent.to_csv("NYC_yearly_rent.csv")

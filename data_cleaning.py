@@ -72,9 +72,10 @@ def main():
             ["Year", "Borough"])["Rental_Price"].mean().reset_index()
     )
 
-    #missing_by_year = (
-    #    nyc_long.groupby("Year")["Rental_Price"].apply(lambda x: x.isnull().sum())
-    #)
+    missing_percentage = nyc_long.isnull().mean() * 100
+
+    print("NYC Long Dataset Missing Data Percentage:")
+    print(missing_percentage)
 
     nyc_long.to_csv("NYC_rental_cleaned.csv")
     nyc_yearly_rent.to_csv("NYC_yearly_rent.csv")

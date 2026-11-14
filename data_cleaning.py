@@ -7,11 +7,10 @@ import pandas as pd
 SEA_RENTAL_FILE = "Datasets/SEA_rental_price.csv"
 NYC_RENTAL_FILE = "Datasets/NYC_rental_price.csv"
 
+
 def main():
     # Data cleaning for Seattle rental price
     sea_rental = pd.read_csv(SEA_RENTAL_FILE)
-
-    # print(sea_rental["Tract Median Apartment Contract Rent per Unit"].isnull().sum())
 
     sea_rental =\
         sea_rental[["Year",
@@ -27,18 +26,17 @@ def main():
 
     sea_rental.to_csv("SEA_rental_cleaned.csv")
 
-    sea_yearly_rent = sea_rental.groupby("year")\
-        [["rental_price_sqft", "rental_price_unit"]].mean().reset_index()
+    sea_yearly_rent = sea_rental.groupby("year")[
+        ["rental_price_sqft", "rental_price_unit"]].mean().reset_index()
 
     sea_yearly_rent.to_csv("SEA_yearly_rent.csv")
-
 
     # Data cleaning for NYC rental price
     nyc_rental = pd.read_csv(NYC_RENTAL_FILE)
     nyc_rental.columns = nyc_rental.columns.str.strip()
 
-    #for col in ["areaName", "Borough", "areaType"]:
-    #    nyc_rental[col] = nyc_rental[col].astype("string").str.strip()
+    # for col in ["areaName", "Borough", "areaType"]:
+    #   nyc_rental[col] = nyc_rental[col].astype("string").str.strip()
 
     id_columns = ["areaName", "Borough", "areaType"]
     date_columns = [
@@ -72,15 +70,15 @@ def main():
             ["Year", "Borough"])["Rental_Price"].mean().reset_index()
     )
 
-   # nyc_17_25 = nyc_long[
+    # nyc_17_25 = nyc_long[
     #    (nyc_long["Year"] >= 2017) &
-   #     (nyc_long["Year"] <= 2025)
-  #  ]
+    #    (nyc_long["Year"] <= 2025)
+    #  ]
 
-   # missing_percentage = nyc_17_25.isnull().mean() * 100
+    # missing_percentage = nyc_17_25.isnull().mean() * 100
 
-  #  print("Missing Data Percentage (2017–2025):")
-  #  print(missing_percentage)
+    # print("Missing Data Percentage (2017–2025):")
+    # print(missing_percentage)
 
     nyc_long.to_csv("NYC_rental_cleaned.csv")
     nyc_yearly_rent.to_csv("NYC_yearly_rent.csv")

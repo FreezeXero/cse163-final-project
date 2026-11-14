@@ -225,9 +225,10 @@ __marimo__/
 # Test, type checker, and tool caches
 # Local environment files
 
-# Local CSV data and generated HTML files
+# Generated local files
 *.csv
 *.html
+*.png
 
 # Local VS Code workspace settings
 .vscode/

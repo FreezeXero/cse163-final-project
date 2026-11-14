@@ -69,20 +69,28 @@ def main() -> None:
 
     # Plot the distribution of yearly rent by area.
     sea_area = pd.read_csv("SEA_rental_cleaned.csv")
-    sea_area = sea_area[(2017 <= sea_area["year"]) & (sea_area["year"] <= 2025)][["year", "area_name", "rental_price_unit"]]
+    sea_area = sea_area[(2017 <= sea_area["year"])
+                        & (sea_area["year"] <= 2025)][
+                            ["year", "area_name", "rental_price_unit"]]
     sea_area["year"] = pd.to_numeric(sea_area["year"], errors="coerce")
-    sea_area["rental_price_unit"] = pd.to_numeric(sea_area["rental_price_unit"], errors="coerce")
+    sea_area["rental_price_unit"] = pd.to_numeric(
+        sea_area["rental_price_unit"], errors="coerce")
     sea_area = sea_area.groupby(["year", "area_name"], as_index=False).mean()
 
     nyc_area = pd.read_csv("NYC_rental_cleaned.csv")
-    nyc_area = nyc_area[nyc_area["areaType"]=="neighborhood"][(2017 <= nyc_area["Year"]) & (nyc_area["Year"] <= 2025)][["areaName", "Rental_Price", "Year"]]
+    nyc_area = nyc_area[nyc_area["areaType"] == "neighborhood"][
+        (2017 <= nyc_area["Year"]) & (nyc_area["Year"] <= 2025)][
+            ["areaName", "Rental_Price", "Year"]]
     nyc_area["Year"] = pd.to_numeric(nyc_area["Year"], errors="coerce")
-    nyc_area["Rental_Price"] = pd.to_numeric(nyc_area["Rental_Price"], errors="coerce")
+    nyc_area["Rental_Price"] = pd.to_numeric(nyc_area["Rental_Price"],
+                                             errors="coerce")
     nyc_area = nyc_area.groupby(["Year", "areaName"], as_index=False).mean()
 
     fig2 = go.Figure()
-    fig2.add_trace(go.Box(x=nyc_area['Year'], y=nyc_area['Rental_Price'], name='New York City'))
-    fig2.add_trace(go.Box(x=sea_area['year'], y=sea_area['rental_price_unit'], name='Seattle'))
+    fig2.add_trace(go.Box(x=nyc_area['Year'],
+                          y=nyc_area['Rental_Price'], name='New York City'))
+    fig2.add_trace(go.Box(x=sea_area['year'],
+                          y=sea_area['rental_price_unit'], name='Seattle'))
     fig2.update_layout(boxmode="group", boxgap=0.45, boxgroupgap=0.45,
                        title="Rental Price Distribution Over Years",
                        xaxis_title="Year", yaxis_title="Rental Price")

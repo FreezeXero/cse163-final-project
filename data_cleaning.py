@@ -67,6 +67,11 @@ def main():
         nyc_long["areaType"] == "borough"
     ]
 
+    nyc_yearly_rent = (
+        borough_data.groupby(
+            ["Year", "Borough"])["Rental_Price"].mean().reset_index()
+    )
+
    # nyc_17_25 = nyc_long[
     #    (nyc_long["Year"] >= 2017) &
    #     (nyc_long["Year"] <= 2025)
